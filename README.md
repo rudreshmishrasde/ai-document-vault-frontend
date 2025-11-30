@@ -4,7 +4,7 @@ A modern React-based document management system with AI-powered document process
 
 ## Features
 
-- 📁 **Document Management**: Upload, view, and manage documents
+- 📁 **Folder Management**: Create, delete, and organize documents into folders
 - 🤖 **AI Integration**: Automatic document summarization and markdown conversion
 - 📱 **Responsive Design**: Mobile-first design with drawer navigation
 - 📄 **PDF Viewer**: Built-in PDF viewer with responsive iframe rendering
@@ -65,6 +65,7 @@ src/
 ├── Components/          # Reusable UI components
 │   ├── Drawer/         # Mobile drawer component
 │   ├── FileComponent/  # Main document viewer with tabs
+│   ├── FolderList/     # Folder management and drag-and-drop
 │   ├── MobileView/     # Mobile-specific layout
 │   ├── Navbar/         # Top navigation bar
 │   ├── PdfViewer/      # PDF rendering component
@@ -84,6 +85,7 @@ src/
 
 **Zustand Store**: Centralized state management using Zustand for:
 - Document list and metadata
+- Folder structure and navigation
 - Current selected document
 - Loading states
 - Document operations (add, remove, update)
@@ -143,7 +145,9 @@ This approach provides:
    - Markdown view
    - Clean organization of related content
 
-4. **Loading States**: Skeleton loaders and loading dialogs for better UX
+5. **Folder System**:
+   - Hierarchical organization
+   - Accordion-style folder expansion
 
 ## Technology Stack
 
