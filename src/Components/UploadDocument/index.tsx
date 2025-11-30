@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react"
-import CloudUploadIcon from "@mui/icons-material/CloudUpload"
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
-import { uploadDocument } from "../../services/api"
+import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder"
+import { uploadFolderDocuments } from "../../services/api"
 import "./uploadDocument.css"
 import { useDocumentStore } from "../../store/documentStore"
 import {
@@ -11,12 +10,11 @@ import {
     CircularProgress,
     Typography,
     Box,
+    IconButton,
 } from "@mui/material"
 
-export const UploadDocument = () => {
-    const { setDocuments , setCurrentDocument } = useDocumentStore()
-    const [isDragging, setIsDragging] = useState(false)
-    const [hovered, setHovered] = useState(false)
+export const UploadDocument = ({ id = "inputTag", folderId , setDocuments  }: { id?: string; folderId?: number | string  , setDocuments : React.Dispatch<React.SetStateAction<never[]>>}) => {
+    const { setCurrentDocument } = useDocumentStore()
     const [loader, setLoader] = useState(false)
 
     const processFiles = useCallback(async (files: FileList | null) => {
@@ -25,7 +23,8 @@ export const UploadDocument = () => {
         const formData = new FormData()
         Array.from(files).forEach((file) => formData.append("files", file))
         try {
-            const response = await uploadDocument(formData)
+            const response = await uploadFolderDocuments(formData , folderId as number)
+            console.log("response" , response)
             setDocuments(response?.data?.documents ?? [])
             setCurrentDocument(response?.data?.uploaded?.[0])
         } catch (error) {
@@ -43,25 +42,6 @@ export const UploadDocument = () => {
         [processFiles],
     )
 
-    const handleDrop = useCallback(
-        (event: React.DragEvent<HTMLLabelElement>) => {
-            event.preventDefault()
-            setIsDragging(false)
-            void processFiles(event.dataTransfer.files)
-        },
-        [processFiles],
-    )
-
-    const handleDragOver = useCallback((event: React.DragEvent<HTMLLabelElement>) => {
-        event.preventDefault()
-        setIsDragging(true)
-    }, [])
-
-    const handleDragLeave = useCallback((event: React.DragEvent<HTMLLabelElement>) => {
-        event.preventDefault()
-        setIsDragging(false)
-    }, [])
-
     return (
         <>
             <Dialog open={loader}>
@@ -76,32 +56,18 @@ export const UploadDocument = () => {
                 </DialogContent>
             </Dialog>
             <label
-                htmlFor="inputTag"
-                className={`upload-card ${isDragging ? "upload-card--active" : ""} ${hovered ? "upload-card--hover" : ""
-                    }`}
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
+                htmlFor={id}
             >
-                <div className="upload-card__icon">
-                    <CloudUploadIcon fontSize="large" />
-                </div>
-
-                <div className="upload-card__text">
-                    <p className="upload-card__title">
-                        Drop new files here or <span>browse</span>
-                    </p>
-                </div>
-
-                <div className="upload-card__cta">
-                    <ArrowForwardIosIcon fontSize="small" />
-                </div>
-
+                <IconButton
+                    size="small"
+                    component="span"
+                    sx={{ color: "grey.400", "&:hover": { color: "#38bdf8" } }}
+                >
+                    <CreateNewFolderIcon fontSize="small" />
+                </IconButton>
                 <input
                     hidden
-                    id="inputTag"
+                    id={id}
                     type="file"
                     accept=".png,.jpg,.jpeg,.pdf,.doc,.docx"
                     onChange={handleInputChange}
