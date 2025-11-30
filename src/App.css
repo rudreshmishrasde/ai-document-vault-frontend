@@ -1,0 +1,33 @@
+.mui-upload {
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  border-radius: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.mui-upload--active,
+.mui-upload:hover {
+  border-color: rgba(59, 130, 246, 0.8);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.mui-upload input {
+  display: none;
+}
+
+.markdown-content {
+  color: #cbd5f5;
+  line-height: 1.6;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content ul {
+  padding-left: 1.2rem;
+}
